@@ -1,0 +1,134 @@
+
+<response>
+	<version>0.1</version>
+	<termsofService>http://www.wunderground.com/weather/api/d/terms.html</termsofService>
+	<features>
+		<feature>conditions</feature>
+	</features>
+  <current_observation>
+		<image>
+		<url>http://icons.wxug.com/graphics/wu2/logo_130x80.png</url>
+		<title>Weather Underground</title>
+		<link>http://www.wunderground.com</link>
+		</image>
+		<display_location>
+		<full>Montpellier, France</full>
+		<city>Montpellier</city>
+		<state>34</state>
+		<state_name>France</state_name>
+		<country>FR</country>
+		<country_iso3166>FR</country_iso3166>
+		<zip>00000</zip>
+		<magic>81</magic>
+		<wmo>07643</wmo>
+		<latitude>43.61000061</latitude>
+		<longitude>3.88000011</longitude>
+		<elevation>0.9</elevation>
+		</display_location>
+		<observation_location>
+		<full>Montpellier, Castelnau-le-Lez, 34</full>
+		<city>Montpellier, Castelnau-le-Lez</city>
+		<state>34</state>
+		<country>FR</country>
+		<country_iso3166>FR</country_iso3166>
+		<latitude>43.609791</latitude>
+		<longitude>3.873783</longitude>
+		<elevation>0 ft</elevation>
+		</observation_location>
+		<estimated>
+		</estimated>
+		<station_id>I34CASTE4</station_id>
+		<observation_time>Last Updated on May 14, 6:09 PM CEST</observation_time>
+		<observation_time_rfc822>Sun, 14 May 2017 18:09:28 +0200</observation_time_rfc822>
+		<observation_epoch>1494778168</observation_epoch>
+		<local_time_rfc822>Sun, 14 May 2017 18:13:26 +0200</local_time_rfc822>
+		<local_epoch>1494778406</local_epoch>
+		<local_tz_short>CEST</local_tz_short>
+		<local_tz_long>Europe/Paris</local_tz_long>
+		<local_tz_offset>+0200</local_tz_offset>
+		<weather>Clear</weather>
+		<temperature_string>86.9 F (30.5 C)</temperature_string>
+		<temp_f>86.9</temp_f>
+		<temp_c>30.5</temp_c>
+		<relative_humidity>39%</relative_humidity>
+		<wind_string>From the SSE at 5.6 MPH Gusting to 9.3 MPH</wind_string>
+		<wind_dir>SSE</wind_dir>
+		<wind_degrees>168</wind_degrees>
+		<wind_mph>5.6</wind_mph>
+		<wind_gust_mph>9.3</wind_gust_mph>
+		<wind_kph>9.0</wind_kph>
+		<wind_gust_kph>15.0</wind_gust_kph>
+		<pressure_mb>1022</pressure_mb>
+		<pressure_in>30.18</pressure_in>
+		<pressure_trend>0</pressure_trend>
+		
+		<dewpoint_string>60 F (15 C)</dewpoint_string>
+		<dewpoint_f>60</dewpoint_f>
+		<dewpoint_c>15</dewpoint_c>
+		
+		
+		<heat_index_string>86 F (30 C)</heat_index_string>
+		<heat_index_f>86</heat_index_f>
+		<heat_index_c>30</heat_index_c>
+		
+		
+		<windchill_string>NA</windchill_string>
+		<windchill_f>NA</windchill_f>
+		<windchill_c>NA</windchill_c>
+		
+        <feelslike_string>86 F (30 C)</feelslike_string>
+        <feelslike_f>86</feelslike_f>
+        <feelslike_c>30</feelslike_c>
+		<visibility_mi>N/A</visibility_mi>
+		<visibility_km>N/A</visibility_km>
+		<solarradiation></solarradiation>
+		<UV>-1</UV>
+		<precip_1hr_string>-999.00 in ( 0 mm)</precip_1hr_string>
+		<precip_1hr_in>-999.00</precip_1hr_in>
+		<precip_1hr_metric> 0</precip_1hr_metric>
+		<precip_today_string>-999.00 in (-25375 mm)</precip_today_string>
+		<precip_today_in>-999.00</precip_today_in>
+		<precip_today_metric>-25375</precip_today_metric>
+		
+		
+		
+		<icon>clear</icon>
+		<icon_url>http://icons.wxug.com/i/c/k/clear.gif</icon_url>
+		<forecast_url>http://www.wunderground.com/global/stations/07643.html</forecast_url>
+        
+        <history_url>http://www.wunderground.com/weatherstation/WXDailyHistory.asp?ID=I34CASTE4</history_url>
+        
+		<ob_url>http://www.wunderground.com/cgi-bin/findweather/getForecast?query=43.609791,3.873783</ob_url>
+	</current_observation>
+
+		
+	
+	
+	
+	
+    
+	
+	
+		
+	
+
+    
+    
+    
+	
+  
+	
+	
+	
+	
+	
+    
+    
+
+
+    
+    
+    
+    
+</response>
+	

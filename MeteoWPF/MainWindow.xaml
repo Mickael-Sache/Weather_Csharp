@@ -1,0 +1,548 @@
+﻿<Window x:Class="WeatherCSharp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:WeatherCSharp"
+        mc:Ignorable="d"
+        Title="WeatherCsharp" Width="450" MaxHeight="500" MinWidth="440" MaxWidth="500" SizeToContent="WidthAndHeight"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <!-- Parent Grid Definitions -->
+    <Grid ShowGridLines="False">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <!-- TopBlock Grid -->
+        <Grid Grid.Row="0" ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!--DateText-->
+            <TextBox Grid.Row="0" 
+                 Margin="35,0,0,0"
+                 VerticalAlignment="Bottom"
+                 x:Name="DateBox"
+                 FontWeight="Bold"
+                 Foreground="#545454"
+                 BorderBrush="Transparent" 
+                 FontSize="16">
+            </TextBox>
+
+            <!--TopLeft Block City-->
+            <TextBlock 
+                   Name="localisation"
+                   Margin="0,12,1,25"
+                   HorizontalAlignment="Right" 
+                   FontWeight="Bold" 
+                   FontSize="18" 
+                   FontFamily="Roboto Cn"
+                   Foreground="#545454">Please Refresh</TextBlock>
+
+            <DockPanel Grid.Row="0"
+                       Grid.Column="1">
+                
+                <!-- TopRight Block MenuSettings -->
+                <!-- MainMenu w/ Settings Icon -->
+                <Menu IsMainMenu="True" DockPanel.Dock="Top">
+                    <MenuItem>
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Settings" Foreground="#545454"></materialDesign:PackIcon>
+                        </MenuItem.Icon>
+                        <ToggleButton x:Name="Toggle_theme"
+                                  Background="#FF8400" Style="{DynamicResource ToggleButtonThemed}"
+                                  Click="Toggle_theme_Click">
+                            <ToggleButton.Resources>
+                                <Style x:Key="ToggleButtonThemed" TargetType="{x:Type ToggleButton}">
+                                    <Setter Property="FocusVisualStyle">
+                                        <Setter.Value>
+                                            <Style>
+                                                <Setter Property="Control.Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+                                                            <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                                    <Setter Property="Background" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Setter Property="Padding" Value="0,1,0,0"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                <ControlTemplate.Resources>
+                                                    <SineEase x:Key="RippleEasingFunction" EasingMode="EaseInOut"/>
+                                                    <Storyboard x:Key="HideRipple">
+                                                        <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RippleThumb">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut"/>
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                    <Storyboard x:Key="ShowRipple">
+                                                        <DoubleAnimation Duration="0" To="0.26" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RippleThumb">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut"/>
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Duration="0:0:0.2" From="1" To="2.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="RippleThumb">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut"/>
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                        <DoubleAnimation Duration="0:0:0.2" From="1" To="2.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="RippleThumb">
+                                                            <DoubleAnimation.EasingFunction>
+                                                                <SineEase EasingMode="EaseInOut"/>
+                                                            </DoubleAnimation.EasingFunction>
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                </ControlTemplate.Resources>
+                                                <Viewbox Width="34">
+                                                    <VisualStateManager.VisualStateGroups>
+                                                        <VisualStateGroup x:Name="CheckStates">
+                                                            <VisualStateGroup.Transitions>
+                                                                <VisualTransition From="*" GeneratedDuration="0" GeneratedEasingFunction="{x:Null}" To="Checked">
+                                                                    <Storyboard>
+                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ThumbHolder">
+                                                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="23.5">
+                                                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                                                    <QuadraticEase EasingMode="EaseOut"/>
+                                                                                </EasingDoubleKeyFrame.EasingFunction>
+                                                                            </EasingDoubleKeyFrame>
+                                                                        </DoubleAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualTransition>
+                                                                <VisualTransition From="Checked" GeneratedDuration="0" GeneratedEasingFunction="{x:Null}" To="Unchecked">
+                                                                    <Storyboard>
+                                                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ThumbHolder">
+                                                                            <EasingDoubleKeyFrame KeyTime="0" Value="23.5"/>
+                                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                                                                <EasingDoubleKeyFrame.EasingFunction>
+                                                                                    <QuadraticEase EasingMode="EaseOut"/>
+                                                                                </EasingDoubleKeyFrame.EasingFunction>
+                                                                            </EasingDoubleKeyFrame>
+                                                                        </DoubleAnimationUsingKeyFrames>
+                                                                    </Storyboard>
+                                                                </VisualTransition>
+                                                            </VisualStateGroup.Transitions>
+                                                            <VisualState x:Name="Checked">
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Duration="0" To="23.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ThumbHolder"/>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                            <VisualState x:Name="Unchecked">
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="ThumbHolder"/>
+                                                                </Storyboard>
+                                                            </VisualState>
+                                                        </VisualStateGroup>
+                                                    </VisualStateManager.VisualStateGroups>
+                                                    <Grid>
+                                                        <Rectangle x:Name="Track" Fill="Black" HorizontalAlignment="Left" Height="15" Margin="4.211,5,4.211,0" Opacity="0.26" RadiusY="7.5" RadiusX="7.5" Stroke="{x:Null}" VerticalAlignment="Top" Width="40"/>
+                                                        <Grid x:Name="ThumbHolder" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                            <Grid.RenderTransform>
+                                                                <TranslateTransform X="0" Y="0"/>
+                                                            </Grid.RenderTransform>
+                                                            <Ellipse x:Name="RippleThumb" Fill="{DynamicResource PrimaryHueLightBrush}" HorizontalAlignment="Center" Height="25" Margin="0" Opacity="0.26" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Center" Width="25">
+                                                                <Ellipse.RenderTransform>
+                                                                    <ScaleTransform ScaleY="1" ScaleX="1"/>
+                                                                </Ellipse.RenderTransform>
+                                                            </Ellipse>
+                                                            <AdornerDecorator CacheMode="{Binding (materialDesign:ShadowAssist.CacheMode), RelativeSource={RelativeSource Self}}">
+                                                                <Ellipse x:Name="Thumb" Effect="{DynamicResource MaterialDesignShadowDepth1}" Fill="#FF00D7FF" HorizontalAlignment="Center" Height="25" Margin="0" RenderTransformOrigin="0.5,0.5" Stroke="{x:Null}" VerticalAlignment="Center" Width="25"/>
+                                                            </AdornerDecorator>
+                                                            <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" FlowDirection="LeftToRight" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Viewbox>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter Property="Fill" TargetName="Thumb" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                        <Setter Property="Fill" TargetName="Track" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidForegroundBrush}"/>
+                                                    </Trigger>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsChecked" Value="True"/>
+                                                            <Condition Property="materialDesign:ToggleButtonAssist.HasOnContent" Value="True"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Content" TargetName="ContentPresenter" Value="{Binding (materialDesign:ToggleButtonAssist.OnContent), RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                        <Setter Property="ContentTemplate" TargetName="ContentPresenter" Value="{Binding (materialDesign:ToggleButtonAssist.OnContentTemplate), RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                    </MultiTrigger>
+                                                    <Trigger Property="IsChecked" Value="False">
+                                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                                                    </Trigger>
+                                                    <Trigger Property="Button.IsDefaulted" Value="True"/>
+                                                    <Trigger Property="IsMouseOver" Value="True"/>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Trigger.EnterActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Duration="0" To="0.26" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RippleThumb">
+                                                                        <DoubleAnimation.EasingFunction>
+                                                                            <SineEase EasingMode="EaseInOut"/>
+                                                                        </DoubleAnimation.EasingFunction>
+                                                                    </DoubleAnimation>
+                                                                    <DoubleAnimation Duration="0:0:0.2" From="1" To="2.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" Storyboard.TargetName="RippleThumb">
+                                                                        <DoubleAnimation.EasingFunction>
+                                                                            <SineEase EasingMode="EaseInOut"/>
+                                                                        </DoubleAnimation.EasingFunction>
+                                                                    </DoubleAnimation>
+                                                                    <DoubleAnimation Duration="0:0:0.2" From="1" To="2.5" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" Storyboard.TargetName="RippleThumb">
+                                                                        <DoubleAnimation.EasingFunction>
+                                                                            <SineEase EasingMode="EaseInOut"/>
+                                                                        </DoubleAnimation.EasingFunction>
+                                                                    </DoubleAnimation>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.EnterActions>
+                                                        <Trigger.ExitActions>
+                                                            <BeginStoryboard>
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RippleThumb">
+                                                                        <DoubleAnimation.EasingFunction>
+                                                                            <SineEase EasingMode="EaseInOut"/>
+                                                                        </DoubleAnimation.EasingFunction>
+                                                                    </DoubleAnimation>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.ExitActions>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter Property="Fill" TargetName="Thumb" Value="#FFBDBDBD"/>
+                                                        <Setter Property="Fill" TargetName="Track">
+                                                            <Setter.Value>
+                                                                <SolidColorBrush Color="Black" Opacity="0.12"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ToggleButton.Resources>
+                        </ToggleButton>
+
+                        <!-- 1st SubMenu Refresh w/Icon -->
+                        <MenuItem Header="Refresh"
+                                  x:Name="Refresh"
+                                  Click="Refresh_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Autorenew" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <!-- 2nd SubMenu About w/Icon -->
+                        <MenuItem Header="About"
+                                  x:Name="About"
+                                  Click="About_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="CheckboxMultipleMarkedCircleOutline"></materialDesign:PackIcon>
+                            </MenuItem.Icon>
+                        </MenuItem>
+
+                        <!-- 2nd SubMenu Exit w/Icon -->
+                        <MenuItem Header="Exit" 
+                                  x:Name="Close"
+                                  Click="Close_Click">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="ExitToApp" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator />
+                        
+                        <!-- User Select Language Shown in App -->
+                        <MenuItem Header="Langage" 
+                                  Click="OnMenuLangage_Click" 
+                                  x:Name="Langage">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="Keyboard"></materialDesign:PackIcon>
+                            </MenuItem.Icon>
+                            <MenuItem Header="Français" IsCheckable="True" x:Name="FR" />
+                            <MenuItem Header="Anglais" IsCheckable="True" x:Name="EN" />
+                        </MenuItem>
+                        
+                        <!-- Menu of Location to change LocationWeather -->
+                        <MenuItem Header="Localisation" 
+                                  Click="OnMenuLocalItem_Click" 
+                                  x:Name="Localisation">
+                            <MenuItem.Icon>
+                                <materialDesign:PackIcon Kind="City"></materialDesign:PackIcon>
+                            </MenuItem.Icon>
+                            
+                            <!-- List of location to change in-App -->
+                            <MenuItem Header="Montpellier" IsCheckable="True" x:Name="Mtp" />
+                            <MenuItem Header="Marseille" IsCheckable="True" x:Name="Mar" />
+                            <MenuItem Header="Paris" IsCheckable="True" x:Name="Par" />
+                            <MenuItem Header="Nice" IsCheckable="True" x:Name="Nic" />
+                            <MenuItem Header="Toulouse" IsCheckable="True" x:Name="Tou" />
+                            
+                        </MenuItem>
+                    </MenuItem>
+                 
+                </Menu>
+            </DockPanel>
+        </Grid>
+
+        <!-- Top Separator Gray & White make 3D effect on interface -->
+        <Separator Name="topGraySeparator" BorderBrush="#D7D7D7D7" Grid.Column="0" Grid.Row="0" BorderThickness="1" Margin="0 1" VerticalAlignment="Bottom"></Separator>
+        <Separator Name="topWhiteSeparator" BorderBrush="#FFFFFFFF" Grid.Column="0" Grid.Row="0" BorderThickness="1" Margin="0" VerticalAlignment="Bottom"/>
+
+        <!-- MidBlock Grid -->
+        <Grid Grid.Row="1" ShowGridLines="False" Background="#FFEFEFEF">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="105*"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition Width="120*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Rectangle VerticalAlignment="Stretch" Width="1" Margin="0 0" Stroke="#FFFFFFFF"></Rectangle>
+                <Rectangle VerticalAlignment="Stretch" Width="1" Margin="0 0 0 0" Stroke="#D7D7D7"></Rectangle>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                <Rectangle VerticalAlignment="Stretch" Width="1" Margin="0 0" Stroke="#FFFFFFFF"></Rectangle>
+                <Rectangle VerticalAlignment="Stretch" Width="1" Margin="0 0 0 0" Stroke="#D7D7D7"></Rectangle>
+            </StackPanel>
+
+            <!-- MidBlock StackPanel Left -->
+            <StackPanel Grid.Column="0" Grid.RowSpan="2">
+
+                <!-- CurrentWeather Icon -->
+                <materialDesign:PackIcon 
+                    Margin="0 -1 0 0"
+                    Height="80" 
+                    Width="80" 
+                    x:Name="currentWeatherIcon"
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Center"
+                    Foreground="{DynamicResource bluColor}" >
+
+                    <!-- Drop Shadow Effect -->
+                    <materialDesign:PackIcon.Effect>
+                        <DropShadowEffect Color="#FF949494" 
+                                          Direction="-90" 
+                                          Opacity="0.55" 
+                                          ShadowDepth="2" 
+                                          BlurRadius="2"/>
+                    </materialDesign:PackIcon.Effect>
+                </materialDesign:PackIcon>
+
+                <!-- CurrentWeather Text Box -->
+                <TextBox Grid.Row="0"
+                    Name="weatherStatus"
+                    TextAlignment="Center"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    BorderBrush="Transparent"
+                    Margin="25,0,25,0"
+                    Foreground="#545454">Please Refresh</TextBox>
+
+                <StackPanel Orientation="Horizontal" Margin="0 5 0 2">
+
+                    <!-- Wind Icon -->
+                    <materialDesign:PackIcon 
+                    Margin="35 0 0 0"
+                    Height="40" 
+                    Width="40" 
+                    Kind="WeatherWindy" 
+                    VerticalAlignment="Top" 
+                    HorizontalAlignment="Center"
+                    Foreground="{DynamicResource bluColor}" >
+
+                        <!--Drop Shadow Effect-->
+                        <materialDesign:PackIcon.Effect>
+                            <DropShadowEffect Color="#FF949494" 
+                                          Direction="-90" 
+                                          Opacity="0.55" 
+                                          ShadowDepth="2" 
+                                          BlurRadius="2"/>
+                        </materialDesign:PackIcon.Effect>
+                    </materialDesign:PackIcon>
+
+                    <!-- Wind Text Box -->
+                    <TextBox Grid.Row="1"
+                         Name="windStatus"
+                         TextAlignment="Center"
+                         VerticalAlignment="Center"
+                         FontWeight="Bold"
+                         BorderBrush="Transparent"
+                         Margin="5,5,25,0"
+                         FontSize="16"
+                         Foreground="#545454">Please Refresh</TextBox>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- MidBlock StackPanel Right -->
+            <StackPanel Grid.Column="2" Grid.RowSpan="2">
+                <TextBox Name="tempC" 
+                     TextAlignment="Center" 
+                     Margin="0,35,0,0"
+                     BorderBrush="Transparent" 
+                     FontSize="48" 
+                     FontFamily="./#ScreenMatrix" 
+                     Foreground="{DynamicResource bluColor}"
+                     FontWeight="Light">Refresh
+
+                    <!--Shadow Effect on Text-->
+                    <TextBox.Effect>
+                        <DropShadowEffect Color="#FF949494" 
+                                          Direction="-90" 
+                                          Opacity="0.55" 
+                                          ShadowDepth="2" 
+                                          BlurRadius="2"/>
+                    </TextBox.Effect>
+                </TextBox>
+
+                <!--TextBox to show Min/Max Temp-->
+                <TextBox Name="tempMinMax" 
+                     TextAlignment="Center"
+                     BorderBrush="Transparent"
+                     Margin="0,0,0,0" 
+                     FontWeight="Bold"
+                     FontSize="15"
+                     Foreground="#545454">Please Refresh</TextBox>
+            </StackPanel>
+        </Grid>
+
+        <!-- Bottom Separator Gray & White make 3D effect on interface -->
+        <Separator Name="bottomSeparator" BorderBrush="#FFFFFF" BorderThickness="1" Grid.Row="1"  Margin="0 1" VerticalAlignment="Bottom"></Separator>
+        <Separator Name="bottomWhiteSeparator" BorderBrush="#D7D7D7"  Grid.Row="1" BorderThickness="3" Margin="0 0" VerticalAlignment="Bottom"/>
+
+        <!-- BottomBlock Grid -->
+        <Grid Grid.Row="2" ShowGridLines="False" x:Name="expGrid" Margin="0,3,0,-3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!-- Forecast Expander -->
+            <Expander HorizontalAlignment="Stretch"
+                      VerticalAlignment="Top"
+                      ExpandDirection="Down"
+                      x:Name="xpandFore"
+                      Collapsed="Expander_Collapsed"
+                      Grid.Row="0">
+                <Expander.Header>
+                    <TextBlock Text="Forecast" HorizontalAlignment="Right" FontSize="15" FontWeight="Bold"></TextBlock>
+                </Expander.Header>
+
+                <StackPanel Margin="0 -10 0 20">
+
+                    <!-- TextBox Title Day 1 -->
+                    <TextBlock x:Name="titleDay0" FontWeight="Bold" Foreground="#545454" HorizontalAlignment="Center" Margin="0 3"></TextBlock>
+
+                    <!-- TextBlock Forecast with StackPanel Inside to put Side by Side Object Day1 -->
+                    <StackPanel Orientation="Horizontal">
+
+                        <!-- Dynamic Weather Icon Day 1 -->
+                        <materialDesign:PackIcon 
+                            x:Name="weatherIcon0" 
+                            Width="25" 
+                            Height="25" 
+                            Foreground="{DynamicResource bluColor}">
+
+                            <!-- Drop Shadow Effect -->
+                            <materialDesign:PackIcon.Effect>
+                                <DropShadowEffect Color="#FF949494" 
+                                          Direction="-90" 
+                                          Opacity="0.55" 
+                                          ShadowDepth="1.5" 
+                                          BlurRadius="2"/>
+                            </materialDesign:PackIcon.Effect>
+                            
+                        </materialDesign:PackIcon>
+
+                        <TextBlock x:Name="Day0" Margin="5 0" Text="{Binding Path=value}" VerticalAlignment="Center" />
+                        <TextBlock x:Name="DayWeather0" Text="{Binding Path=value}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <!-- Date of The forecast Day 1 -->
+                    <TextBlock x:Name="titleDay1" FontWeight="Bold" Foreground="#545454" HorizontalAlignment="Center" Margin="0 0 0 0"></TextBlock>
+
+                    <!-- TextBlock Forecast with StackPanel Inside to put Side by Side Object Day2 -->
+                    <StackPanel Orientation="Horizontal" >
+
+                        <!-- Dynamic Weather Icon Day 2 -->
+                        <materialDesign:PackIcon 
+                            x:Name="weatherIcon1" 
+                            Kind="{Binding Path=value}" 
+                            Width="25" 
+                            Height="25" 
+                            Foreground="{DynamicResource bluColor}">
+                            
+                            <!-- Drop Shadow Effect -->
+                            <materialDesign:PackIcon.Effect>
+                                <DropShadowEffect Color="#FF949494" 
+                                          Direction="-90" 
+                                          Opacity="0.55" 
+                                          ShadowDepth="1.5" 
+                                          BlurRadius="2"/>
+                            </materialDesign:PackIcon.Effect>
+
+                        </materialDesign:PackIcon>
+                        <TextBlock x:Name="Day1" Margin="5 0" VerticalAlignment="Center" />
+                        <TextBlock x:Name="DayWeather1" Text="{Binding Path=value}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <!-- Date of The forecast Day 3 -->
+                    <TextBlock x:Name="titleDay2" FontWeight="Bold" Foreground="#545454" HorizontalAlignment="Center" Margin="0 2"></TextBlock>
+
+                    <!-- TextBlock Forecast with StackPanel Inside to put Side by Side Object Day3 -->
+                    <StackPanel Orientation="Horizontal" >
+                        
+                        <!-- Dynamic Weather Icon Day 3 -->
+                        <materialDesign:PackIcon 
+                            x:Name="weatherIcon2" 
+                            Width="25" 
+                            Height="25" 
+                            Foreground="{DynamicResource bluColor}">
+
+                            <!-- Drop Shadow Effect -->
+                            <materialDesign:PackIcon.Effect>
+                                <DropShadowEffect Color="#FF949494" 
+                                          Direction="-90" 
+                                          Opacity="0.55" 
+                                          ShadowDepth="1.5" 
+                                          BlurRadius="2"/>
+                            </materialDesign:PackIcon.Effect>
+                        </materialDesign:PackIcon>
+                        
+                        <TextBlock x:Name="Day2" Margin="5 0" VerticalAlignment="Center" />
+                        <TextBlock x:Name="DayWeather2" Text="{Binding Path=value}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                </StackPanel>
+            </Expander>
+        </Grid>
+    </Grid>
+</Window>
