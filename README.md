@@ -1,5 +1,6 @@
 # Weather_Csharp
-A weather application developped in C# with a WPF interface 
+A weather application developped in C# with a WPF interface
+See the Wiki page for more information !
 
 #FRA
 
